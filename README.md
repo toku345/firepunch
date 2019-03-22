@@ -1,5 +1,6 @@
 # FIREPUNCH 🔥👊🏻
 
+[![Build Status](https://travis-ci.com/toku345/firepunch.svg?branch=master)](https://travis-ci.com/toku345/firepunch)
 
 ## Description
 

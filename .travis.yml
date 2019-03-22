@@ -1,0 +1,16 @@
+dist: xenial
+language: python
+python:
+  - 3.7
+
+before_script:
+  - sudo apt-get install -y gpac
+
+install:
+  - pip install pipenv
+  - pipenv install --dev
+
+script:
+  - pipenv run pytest
+
+cache: pip

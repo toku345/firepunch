@@ -5,7 +5,7 @@ from datetime import timedelta
 class GitRepository:
     GITHUB_API_URL = "https://api.github.com"
 
-    def __init__(self, access_token, now):
+    def __init__(self, now, access_token):
         self.access_token = access_token
         self.now = now
 

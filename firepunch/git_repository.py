@@ -12,8 +12,7 @@ class GitRepository:
 
     def change_commits_1_day_before(self):
         a_day_ago = (self.now - timedelta(days=1)) + timedelta(seconds=1)
-        request_uri = \
-            f"{self.GITHUB_API_URL}/{self.repo_name}/firepunch/commits"
+        request_uri = f"{self.GITHUB_API_URL}/repos/{self.repo_name}/commits"
         params = {
             "access_token": self.access_token,
             "since": a_day_ago.strftime("%Y-%m-%dT%H:%M:%SZ"),

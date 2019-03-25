@@ -10,7 +10,7 @@ from firepunch.git_repository import GitRepository
 # - 2019-03-21T12:39:58Z
 
 def test_get_1_commit_call_at_just_commit_time():
-    repo_name = "repos/toku345"
+    repo_name = "toku345/firepunch"
     now = datetime.strptime("2019-03-21T12:39:58Z", "%Y-%m-%dT%H:%M:%SZ")
     access_token = os.getenv("GITHUB_ACCESS_TOKEN")
 
@@ -21,7 +21,7 @@ def test_get_1_commit_call_at_just_commit_time():
 
 
 def test_get_0_commit_call_at_after_whole_day():
-    repo_name = "repos/toku345"
+    repo_name = "toku345/firepunch"
     now = datetime.strptime("2019-03-23T01:25:52Z", "%Y-%m-%dT%H:%M:%SZ")
     access_token = os.getenv("GITHUB_ACCESS_TOKEN")
 

@@ -8,7 +8,12 @@ class GitCommitsCliViewer:
         self.access_token = access_token
 
     def print_commits_1_day_before(self):
-        print(self.commits_1_day_before())
+        def printer(commit):
+            print(f"date: {commit['date']}")
+            print(f"message: {commit['message']}")
+            print("--------------\n")
+
+        [printer(commit) for commit in self.commits_1_day_before()]
 
     def commits_1_day_before(self):
         git_repository = \

@@ -1,3 +1,4 @@
+from datetime import timedelta
 from firepunch.git_repository import GitRepository
 
 
@@ -9,21 +10,34 @@ class GitCommitsCliViewer:
 
     def print_commits_1_day_before(self):
         def printer(commit):
+            print("\n--------------")
             print(f"date: {commit['date']}")
-            print(f"message: {commit['message']}")
-            print("--------------\n")
+            print(f"{commit['message']}")
 
-        [printer(commit) for commit in self.commits_1_day_before()]
+        def print_header():
+            print(f"{len(commits)} commits between {a_day_ago} and {self.now}.")
 
-    def commits_1_day_before(self):
-        git_repository = \
-            GitRepository(self.repo_name, self.now, self.access_token)
+        def print_header_without_commits():
+            print(f"No commits between {a_day_ago} and {self.now}.")
 
+        a_day_ago = (self.now - timedelta(days=1)) + timedelta(seconds=1)
+        commits = self.get_commits_from_now(since=a_day_ago)
+        if not commits:
+            print_header_without_commits()
+        else:
+            print_header()
+
+        [printer(commit) for commit in commits]
+
+    def get_commits_from_now(self, since):
         def filter(commit_response):
             return {
                 "message": commit_response["commit"]["message"],
                 "date": commit_response["commit"]["author"]["date"]
             }
 
-        commits_response = git_repository.change_commits_1_day_before()
+        git_repository = \
+            GitRepository(self.repo_name, self.access_token)
+        commits_response = \
+            git_repository.change_commits(since=since, until=self.now)
         return [filter(cr) for cr in commits_response]

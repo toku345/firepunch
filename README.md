@@ -21,6 +21,17 @@ $ pipenv install --dev
 $ pipenv shell
 ```
 
+### Usage
+
+``` console
+$ pipenv install --dev
+$ pipenv shell
+$ ./cli.py <repo_name>
+
+# e.g.
+$ ./cli.py toku345/firepunch
+```
+
 ## License
 
 Apache License 2.0

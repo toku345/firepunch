@@ -4,10 +4,11 @@ from firepunch.git_commits_cli_viewer import GitCommitsCliViewer
 
 
 def test_commits_1_day_before():
-    access_token = os.getenv("GITHUB_ACCESS_TOKEN")
+    repo_name = "repos/toku345"
     now = datetime.strptime("2019-03-21T12:39:58Z", "%Y-%m-%dT%H:%M:%SZ")
+    access_token = os.getenv("GITHUB_ACCESS_TOKEN")
 
-    viewer = GitCommitsCliViewer(now, access_token)
+    viewer = GitCommitsCliViewer(repo_name, now, access_token)
 
     expected = [
         {

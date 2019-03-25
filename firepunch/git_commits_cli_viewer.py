@@ -2,7 +2,8 @@ from firepunch.git_repository import GitRepository
 
 
 class GitCommitsCliViewer:
-    def __init__(self, now, access_token):
+    def __init__(self, repo_name, now, access_token):
+        self.repo_name = repo_name
         self.now = now
         self.access_token = access_token
 
@@ -10,7 +11,8 @@ class GitCommitsCliViewer:
         print(self.commits_1_day_before())
 
     def commits_1_day_before(self):
-        git_repository = GitRepository(self.now, self.access_token)
+        git_repository = \
+            GitRepository(self.repo_name, self.now, self.access_token)
 
         def filter(commit_response):
             return {

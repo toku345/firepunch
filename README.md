@@ -1,6 +1,8 @@
 # FIREPUNCH 🔥👊🏻
 
 [![Build Status](https://travis-ci.com/toku345/firepunch.svg?branch=master)](https://travis-ci.com/toku345/firepunch)
+[![Maintainability](https://api.codeclimate.com/v1/badges/e6f8871b24dbedcf3b7d/maintainability)](https://codeclimate.com/github/toku345/firepunch/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/e6f8871b24dbedcf3b7d/test_coverage)](https://codeclimate.com/github/toku345/firepunch/test_coverage)
 
 ## Description
 

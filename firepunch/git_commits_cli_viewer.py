@@ -21,7 +21,7 @@ class GitCommitsCliViewer:
             print(f"No commits between {a_day_ago} and {self.now}.")
 
         a_day_ago = (self.now - timedelta(days=1)) + timedelta(seconds=1)
-        commits = self.get_commits_from_now(since=a_day_ago)
+        commits = self.get_commits_until_now(since=a_day_ago)
         if not commits:
             print_header_without_commits()
         else:
@@ -29,7 +29,7 @@ class GitCommitsCliViewer:
 
         [printer(commit) for commit in commits]
 
-    def get_commits_from_now(self, since):
+    def get_commits_until_now(self, since):
         def filter(commit_response):
             return {
                 "message": commit_response["commit"]["message"],

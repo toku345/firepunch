@@ -20,4 +20,4 @@ def test_commits_1_day_before():
         }
     ]
 
-    assert expected == viewer.get_commits_from_now(since=a_day_ago)
+    assert expected == viewer.get_commits_until_now(since=a_day_ago)

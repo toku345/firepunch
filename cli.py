@@ -4,6 +4,7 @@ from datetime import datetime
 import os
 
 from firepunch.git_commits_cli_viewer import GitCommitsCliViewer
+from firepunch.inquiry_period import InquiryPeriod
 
 
 def main():
@@ -13,10 +14,13 @@ def main():
     args = parser.parse_args()
 
     now = datetime.utcnow()
+    inquiry_period = InquiryPeriod(until=now, days=1)
+
     github_access_token = os.getenv("GITHUB_ACCESS_TOKEN")
 
-    viewer = GitCommitsCliViewer(args.repo_name, now, github_access_token)
-    print(viewer.commits_for_1_day())
+    viewer = GitCommitsCliViewer(args.repo_name, inquiry_period,
+                                 github_access_token)
+    print(viewer.commit_summary())
 
 
 if __name__ == '__main__':

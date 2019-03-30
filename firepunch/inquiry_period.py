@@ -2,9 +2,10 @@ from datetime import timedelta
 
 
 class InquiryPeriod:
-    def __init__(self, until):
+    def __init__(self, until, days):
         self.until = until
+        self.days = days
+        self.since = self.__calcrate_since()
 
-    def a_whole_day(self):
-        since = (self.until - timedelta(days=1)) + timedelta(seconds=1)
-        return (since, self.until)
+    def __calcrate_since(self):
+        return (self.until - timedelta(days=self.days)) + timedelta(seconds=1)

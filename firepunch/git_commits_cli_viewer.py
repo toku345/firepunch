@@ -4,34 +4,43 @@ from firepunch.inquiry_period import InquiryPeriod
 
 
 class GitCommitsCliViewer:
-    def __init__(self, repo_name, now, access_token):
+    def __init__(self, repo_name, until, access_token):
         self.repo_name = repo_name
-        self.until = now
+        self.until = until
         self.access_token = access_token
 
-    def print_commits_1_day_before(self):
-        def printer(commit):
-            print("\n--------------")
-            print(f"date: {commit['date']}")
-            print(f"{commit['message']}")
+    def __header(self, since, commits):
+        return f"{len(commits)} commits between {since} and {self.until}."
 
-        def print_header():
-            print(f"{len(commits)} commits between {since} and {self.until}.")
+    def __header_without_commits(self, since):
+        return f"No commits between {since} and {self.until}."
 
-        def print_header_without_commits():
-            print(f"No commits between {since} and {self.until}.")
+    def __format_commits(self, commits):
+        def format(commit):
+            return [
+                "------------------------",
+                f"date: {commit['date']}",
+                f"{commit['message']}"
+            ]
 
+        formated_commits = \
+            [sentence for commit in commits for sentence in format(commit)]
+        return formated_commits
+
+    def commits_for_1_day(self):
         since, _until = InquiryPeriod(until=self.until).a_whole_day()
         commits = self.get_commits(since)
 
         if not commits:
-            print_header_without_commits()
+            header = self.__header_without_commits(since)
         else:
-            print_header()
+            header = self.__header(since, commits)
 
-        [printer(commit) for commit in commits]
+        sentences = [header] + self.__format_commits(commits)
 
-    def get_commits_until_now(self, since):
+        return "\n".join(sentences)
+
+    def get_commits(self, since):
         def filter(commit_response):
             return {
                 "message": commit_response["commit"]["message"],

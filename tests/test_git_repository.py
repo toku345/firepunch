@@ -19,7 +19,7 @@ def test_get_1_commit_call_at_just_commit_time():
 
     git_repository = GitRepository(repo_name, access_token)
 
-    result = git_repository.change_commits(since=a_day_ago, until=now)
+    result = git_repository.retrieve_change_commits(since=a_day_ago, until=now)
     assert 1 == len(result)
 
 
@@ -33,5 +33,5 @@ def test_get_0_commit_call_at_after_whole_day():
 
     git_repository = GitRepository(repo_name, access_token)
 
-    result = git_repository.change_commits(since=a_day_ago, until=now)
+    result = git_repository.retrieve_change_commits(since=a_day_ago, until=now)
     assert 0 == len(result)

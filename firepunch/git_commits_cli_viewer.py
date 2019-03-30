@@ -32,7 +32,7 @@ class GitCommitsCliViewer:
         # TODO: change I/F => git_repository.change_commits(inquiry_period)
         since = self.inquiry_period.since
         until = self.inquiry_period.until
-        return git_repository.change_commits(since=since, until=until)
+        return git_repository.retrieve_change_commits(since=since, until=until)
 
     def commit_summary(self):
         commits_response = self.__get_commits_response()

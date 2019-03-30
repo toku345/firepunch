@@ -14,6 +14,7 @@ install:
 
 script:
   - pipenv run pytest -v --cov=firepunch --cov-report=xml
+  - pipenv run pytest --flake8
 
 cache: pip
 

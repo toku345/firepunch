@@ -1,4 +1,3 @@
-from datetime import timedelta
 from firepunch.git_repository import GitRepository
 from firepunch.inquiry_period import InquiryPeriod
 

@@ -1,5 +1,5 @@
 import os
-from datetime import datetime, timedelta
+from datetime import datetime
 from firepunch.git_commits_cli_viewer import GitCommitsCliViewer
 from firepunch.inquiry_period import InquiryPeriod
 

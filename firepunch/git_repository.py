@@ -8,7 +8,7 @@ class GitRepository:
         self.repo_name = repo_name
         self.access_token = access_token
 
-    def change_commits(self, since, until):
+    def retrieve_change_commits(self, since, until):
         request_uri = f"{self.GITHUB_API_URL}/repos/{self.repo_name}/commits"
         params = {
             "access_token": self.access_token,

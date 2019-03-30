@@ -35,3 +35,16 @@ def test_commits_for_1_day():
         "------------------------\ndate: 2019-03-21T12:39:58Z\nInitial commit"
 
     assert expected == viewer.commits_for_1_day()
+
+
+def test_commits_for_1_day_no_commit():
+    repo_name = "toku345/firepunch"
+    access_token = os.getenv("GITHUB_ACCESS_TOKEN")
+    until = datetime.strptime("2019-03-20T12:39:58Z", "%Y-%m-%dT%H:%M:%SZ")
+
+    viewer = GitCommitsCliViewer(repo_name, until, access_token)
+
+    expected = \
+        "No commits between 2019-03-19 12:39:59 and 2019-03-20 12:39:58."
+
+    assert expected == viewer.commits_for_1_day()

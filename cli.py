@@ -16,7 +16,7 @@ def main():
     github_access_token = os.getenv("GITHUB_ACCESS_TOKEN")
 
     viewer = GitCommitsCliViewer(args.repo_name, now, github_access_token)
-    viewer.print_commits_1_day_before()
+    print(viewer.commits_for_1_day())
 
 
 if __name__ == '__main__':

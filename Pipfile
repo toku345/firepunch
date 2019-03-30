@@ -9,6 +9,7 @@ python-language-server = "*"
 flake8 = "*"
 ipython = "*"
 pytest-cov = "*"
+pytest-flake8 = "*"
 
 [packages]
 requests = "*"

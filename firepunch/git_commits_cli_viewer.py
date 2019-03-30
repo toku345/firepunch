@@ -3,51 +3,45 @@ from firepunch.inquiry_period import InquiryPeriod
 
 
 class GitCommitsCliViewer:
-    def __init__(self, repo_name, until, access_token):
+    def __init__(self, repo_name, inquiry_period, access_token):
         self.repo_name = repo_name
-        self.until = until
+        self.inquiry_period = inquiry_period
+        self.since = inquiry_period.since
+        self.until = inquiry_period.until
         self.access_token = access_token
 
-    def __header(self, since, commits):
-        return f"{len(commits)} commits between {since} and {self.until}."
+    def __header(self, commit_count):
+        return f"{commit_count} commits between {self.since} and {self.until}."
 
-    def __header_without_commits(self, since):
-        return f"No commits between {since} and {self.until}."
+    def __header_with_no_commit(self):
+        return f"No commits between {self.since} and {self.until}."
 
-    def __format_commits(self, commits):
+    def __response_to_dict_list(self, commits_response):
         def format(commit):
             return [
                 "------------------------",
-                f"date: {commit['date']}",
-                f"{commit['message']}"
+                f"date: {commit['commit']['author']['date']}",
+                f"{commit['commit']['message']}"
             ]
+        return [sentence for c in commits_response for sentence in format(c)]
 
-        formated_commits = \
-            [sentence for commit in commits for sentence in format(commit)]
-        return formated_commits
-
-    def commits_for_1_day(self):
-        since, _until = InquiryPeriod(until=self.until).a_whole_day()
-        commits = self.get_commits(since)
-
-        if not commits:
-            header = self.__header_without_commits(since)
-        else:
-            header = self.__header(since, commits)
-
-        sentences = [header] + self.__format_commits(commits)
-
-        return "\n".join(sentences)
-
-    def get_commits(self, since):
-        def filter(commit_response):
-            return {
-                "message": commit_response["commit"]["message"],
-                "date": commit_response["commit"]["author"]["date"]
-            }
-
+    def __get_commits_response(self):
         git_repository = \
             GitRepository(self.repo_name, self.access_token)
-        commits_response = \
-            git_repository.change_commits(since=since, until=self.until)
-        return [filter(cr) for cr in commits_response]
+
+        # TODO: change I/F => git_repository.change_commits(inquiry_period)
+        since = self.inquiry_period.since
+        until = self.inquiry_period.until
+        return git_repository.change_commits(since=since, until=until)
+
+    def commit_summary(self):
+        commits_response = self.__get_commits_response()
+
+        if not commits_response:
+            header = self.__header_with_no_commit()
+        else:
+            header = self.__header(len(commits_response))
+
+        sentences = [header] + self.__response_to_dict_list(commits_response)
+
+        return "\n".join(sentences)

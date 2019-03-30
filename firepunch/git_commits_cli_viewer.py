@@ -1,11 +1,9 @@
 from firepunch.git_repository import GitRepository
-from firepunch.inquiry_period import InquiryPeriod
 
 
 class GitCommitsCliViewer:
     def __init__(self, repo_name, inquiry_period, access_token):
         self.repo_name = repo_name
-        self.inquiry_period = inquiry_period
         self.since = inquiry_period.since
         self.until = inquiry_period.until
         self.access_token = access_token
@@ -29,10 +27,8 @@ class GitCommitsCliViewer:
         git_repository = \
             GitRepository(self.repo_name, self.access_token)
 
-        # TODO: change I/F => git_repository.change_commits(inquiry_period)
-        since = self.inquiry_period.since
-        until = self.inquiry_period.until
-        return git_repository.retrieve_change_commits(since=since, until=until)
+        return git_repository.retrieve_change_commits(since=self.since,
+                                                      until=self.until)
 
     def commit_summary(self):
         commits_response = self.__get_commits_response()

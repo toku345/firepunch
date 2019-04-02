@@ -3,7 +3,7 @@ import argparse
 from datetime import datetime
 import os
 
-from firepunch.git_commits_cli_viewer import GitCommitsCliViewer
+from firepunch.git_commits_cli_client import GitCommitsCliClient
 from firepunch.inquiry_period import InquiryPeriod
 
 
@@ -23,9 +23,9 @@ def main():
 
     github_access_token = os.getenv("GITHUB_ACCESS_TOKEN")
 
-    viewer = GitCommitsCliViewer(args.repo_name, inquiry_period,
+    client = GitCommitsCliClient(args.repo_name, inquiry_period,
                                  github_access_token)
-    print(viewer.commit_summary())
+    print(client.commit_summary())
 
 
 if __name__ == '__main__':

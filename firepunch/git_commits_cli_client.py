@@ -1,7 +1,7 @@
 from firepunch.git_repository import GitRepository
 
 
-class GitCommitsCliViewer:
+class GitCommitsCliClient:
     def __init__(self, repo_name, inquiry_period, access_token):
         self.repo_name = repo_name
         self.since = inquiry_period.since

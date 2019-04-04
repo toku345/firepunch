@@ -3,8 +3,10 @@ import argparse
 from datetime import datetime
 import os
 
-from firepunch.git_commits_cli_client import GitCommitsCliClient
 from firepunch.inquiry_period import InquiryPeriod
+from firepunch.git_commits_cli_client import GitCommitsCliClient
+from firepunch.git_commits_slack_client import GitCommitsSlackClient
+from firepunch.slack_notifier import SlackNotifier
 
 
 def parse_args():
@@ -13,6 +15,10 @@ def parse_args():
                         help="GitHub repository name. e.g. toku345/firepunch")
     parser.add_argument("--days", type=int, default=1,
                         help="Number of days to investigate")
+    parser.add_argument("--output-to", metavar="output_to", default="stdout",
+                        help="Output to `stdout` or `slack`. (default: slack)")
+    parser.add_argument("--slack-channel", metavar="slack_channel",
+                        help="Slack channel name. e.g. general")
     return parser.parse_args()
 
 
@@ -23,9 +29,18 @@ def main():
 
     github_access_token = os.getenv("GITHUB_ACCESS_TOKEN")
 
-    client = GitCommitsCliClient(args.repo_name, inquiry_period,
-                                 github_access_token)
-    print(client.commit_summary())
+    if args.output_to == 'slack':
+        slack_token = os.getenv("SLACK_TOKEN")
+        notifier = SlackNotifier(token=slack_token,
+                                 channel_name=args.slack_channel)
+        client = GitCommitsSlackClient(args.repo_name, inquiry_period,
+                                       github_access_token, notifier)
+        client.post_commit_summary()
+        print("OK!")
+    else:
+        client = GitCommitsCliClient(args.repo_name, inquiry_period,
+                                     github_access_token)
+        print(client.commit_summary())
 
 
 if __name__ == '__main__':

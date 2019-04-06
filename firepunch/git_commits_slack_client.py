@@ -11,10 +11,12 @@ class GitCommitsSlackClient:
         self.slack_notifier = slack_notifier
 
     def __header(self, commit_count):
-        return f"{commit_count} commits between {self.since} and {self.until}."
+        return (f"*[{self.repo_name}]*\n" +
+                f"{commit_count} commits between {self.since} and {self.until}.")
 
     def __header_with_no_commit(self):
-        return f"No commits between {self.since} and {self.until}."
+        return (f"*[{self.repo_name}]*\n" +
+                f"No commits between {self.since} and {self.until}.")
 
     def __response_to_dict_list(self, commits_response):
         def format(commit):

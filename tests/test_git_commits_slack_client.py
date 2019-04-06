@@ -52,6 +52,6 @@ def test_commits_for_1_day_with_no_result(mocker):
 
     expected_text = \
         "*[toku345/firepunch]*\n" + \
-        "No commits between 2019-03-19 12:39:59 and 2019-03-20 12:39:58."
+        "0 commits between 2019-03-19 12:39:59 and 2019-03-20 12:39:58."
 
     slack_notifier.post.assert_called_once_with(expected_text)

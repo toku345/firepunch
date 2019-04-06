@@ -14,15 +14,12 @@ class GitCommitsSlackClient:
         return (f"*[{self.repo_name}]*\n" +
                 f"{commit_count} commits between {self.since} and {self.until}.")  # noqa: E501
 
-    def __header_with_no_commit(self):
-        return (f"*[{self.repo_name}]*\n" +
-                f"No commits between {self.since} and {self.until}.")
-
     def __response_to_dict_list(self, commits_response):
         def format(commit):
             return [
                 f"{commit['html_url']}"
             ]
+        # flatten
         return [sentence for c in commits_response for sentence in format(c)]
 
     def __get_commits_response(self):
@@ -34,11 +31,7 @@ class GitCommitsSlackClient:
 
     def post_commit_summary(self):
         commits_response = self.__get_commits_response()
-
-        if not commits_response:
-            header = self.__header_with_no_commit()
-        else:
-            header = self.__header(len(commits_response))
+        header = self.__header(len(commits_response))
 
         sentences = [header] + self.__response_to_dict_list(commits_response)
 

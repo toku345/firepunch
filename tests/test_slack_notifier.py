@@ -17,7 +17,8 @@ def test_post_slack(mocker):
     expected_params = {
         "token": token,
         "channel": channel_name,
-        "text": text
+        "text": text,
+        "unfurl_links": True
     }
     requests.post.assert_called_once_with(url=exptected_url,
                                           params=expected_params)

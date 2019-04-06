@@ -12,6 +12,7 @@ class SlackNotifier:
         params = {
             "token": self.token,
             "channel": self.channel_name,
-            "text": text
+            "text": text,
+            "unfurl_links": True
         }
         return requests.post(url=self.SLACK_POST_MESSAGE_URL, params=params)

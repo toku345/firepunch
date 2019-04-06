@@ -12,7 +12,7 @@ class GitCommitsSlackClient:
 
     def __header(self, commit_count):
         return (f"*[{self.repo_name}]*\n" +
-                f"{commit_count} commits between {self.since} and {self.until}.")
+                f"{commit_count} commits between {self.since} and {self.until}.")  # noqa: E501
 
     def __header_with_no_commit(self):
         return (f"*[{self.repo_name}]*\n" +

@@ -24,10 +24,11 @@ def test_commits_for_1_day(mocker):
 
     client.post_commit_summary()
 
-    expected_text = \
-        "1 commits between 2019-03-20 12:39:59 and 2019-03-21 12:39:58.\n" + \
-        "------------------------\ndate: 2019-03-21T12:39:58Z\nInitial commit"
-    slack_notifier.post.assert_called_once_with(expected_text)
+    expected_calls = [
+        mocker.call("*[toku345/firepunch]*\n1 commits between 2019-03-20 12:39:59 and 2019-03-21 12:39:58."),  # noqa: E501
+        mocker.call("https://github.com/toku345/firepunch/commit/421db6df5d6be3e7026ab2de1203f7d09a09d08f")    # noqa: E501
+    ]
+    slack_notifier.post.assert_has_calls(expected_calls)
 
 
 def test_commits_for_1_day_with_no_result(mocker):
@@ -50,6 +51,7 @@ def test_commits_for_1_day_with_no_result(mocker):
     client.post_commit_summary()
 
     expected_text = \
+        "*[toku345/firepunch]*\n" + \
         "No commits between 2019-03-19 12:39:59 and 2019-03-20 12:39:58."
 
     slack_notifier.post.assert_called_once_with(expected_text)

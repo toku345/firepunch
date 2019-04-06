@@ -21,9 +21,7 @@ class GitCommitsSlackClient:
     def __response_to_dict_list(self, commits_response):
         def format(commit):
             return [
-                "------------------------",
-                f"date: {commit['commit']['author']['date']}",
-                f"{commit['commit']['message']}"
+                f"{commit['html_url']}"
             ]
         return [sentence for c in commits_response for sentence in format(c)]
 
@@ -44,4 +42,5 @@ class GitCommitsSlackClient:
 
         sentences = [header] + self.__response_to_dict_list(commits_response)
 
-        self.slack_notifier.post("\n".join(sentences))
+        for sentence in sentences:
+            self.slack_notifier.post(sentence)

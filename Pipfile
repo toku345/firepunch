@@ -15,7 +15,6 @@ pytest-mock = "*"
 [packages]
 requests = "*"
 pytz = "*"
-tzlocal = "*"
 
 [requires]
 python_version = "3.7"

@@ -4,7 +4,7 @@ from pytz import timezone
 
 class GitCommitsSlackClient:
     def __init__(self, repo_name, inquiry_period,
-                 access_token, slack_notifier, tzlocal='Asia/Tokyo'):
+                 access_token, slack_notifier, tzlocal):
         self.repo_name = repo_name
         self.since = inquiry_period.since
         self.until = inquiry_period.until

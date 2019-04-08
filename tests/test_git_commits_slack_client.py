@@ -22,7 +22,8 @@ def test_commits_for_1_day(mocker):
     client = GitCommitsSlackClient(repo_name=repo_name,
                                    inquiry_period=inquiry_period,
                                    access_token=access_token,
-                                   slack_notifier=slack_notifier)
+                                   slack_notifier=slack_notifier,
+                                   tzlocal="Asia/Tokyo")
 
     client.post_commit_summary()
 
@@ -48,7 +49,8 @@ def test_commits_for_1_day_with_no_result(mocker):
     client = GitCommitsSlackClient(repo_name=repo_name,
                                    inquiry_period=inquiry_period,
                                    access_token=access_token,
-                                   slack_notifier=slack_notifier)
+                                   slack_notifier=slack_notifier,
+                                   tzlocal="Asia/Tokyo")
 
     client.post_commit_summary()
 

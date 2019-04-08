@@ -1,26 +1,29 @@
 from firepunch.git_repository import GitRepository
+from pytz import timezone
 
 
-class GitCommitsCliViewer:
-    def __init__(self, repo_name, inquiry_period, access_token):
+class GitCommitsSlackClient:
+    def __init__(self, repo_name, inquiry_period,
+                 access_token, slack_notifier, tzlocal):
         self.repo_name = repo_name
         self.since = inquiry_period.since
         self.until = inquiry_period.until
         self.access_token = access_token
+        self.slack_notifier = slack_notifier
+        self.timezone = timezone(tzlocal)
 
     def __header(self, commit_count):
-        return f"{commit_count} commits between {self.since} and {self.until}."
-
-    def __header_with_no_commit(self):
-        return f"No commits between {self.since} and {self.until}."
+        since = self.since.astimezone(self.timezone).strftime("%Y-%m-%d %H:%M:%S")  # noqa: E501
+        until = self.until.astimezone(self.timezone).strftime("%Y-%m-%d %H:%M:%S")  # noqa: E501
+        return (f"*[{self.repo_name}]*\n" +
+                f"{commit_count} commits between {since} and {until}.")
 
     def __response_to_dict_list(self, commits_response):
         def format(commit):
             return [
-                "------------------------",
-                f"date: {commit['commit']['author']['date']}",
-                f"{commit['commit']['message']}"
+                f"{commit['html_url']}"
             ]
+        # flatten
         return [sentence for c in commits_response for sentence in format(c)]
 
     def __get_commits_response(self):
@@ -30,14 +33,11 @@ class GitCommitsCliViewer:
         return git_repository.retrieve_change_commits(since=self.since,
                                                       until=self.until)
 
-    def commit_summary(self):
+    def post_commit_summary(self):
         commits_response = self.__get_commits_response()
-
-        if not commits_response:
-            header = self.__header_with_no_commit()
-        else:
-            header = self.__header(len(commits_response))
+        header = self.__header(len(commits_response))
 
         sentences = [header] + self.__response_to_dict_list(commits_response)
 
-        return "\n".join(sentences)
+        for sentence in sentences:
+            self.slack_notifier.post(sentence)

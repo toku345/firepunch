@@ -1,4 +1,5 @@
 from datetime import datetime
+
 from firepunch.inquiry_period import InquiryPeriod
 
 

@@ -21,13 +21,24 @@ Notify specific GitHub repos change of the day before on every morning!
 $ pipenv install --dev
 $ pipenv shell
 
-# if you use direnv
+# If you use direnv
 $ cp .envrc.sample .envrc
 $ $EDITOR .envrc # set your GitHub access token
 $ direnv allow
 
 # or set `export GITHUB_ACCESS_TOKEN=XXXXXX` to your .bash_profile / .zshenv
 ```
+
+If you send messages to slack, you need slack_token
+
+``` console
+# If you use direnv
+$ $EDITOR .envrc # set your GitHub access token
+$ direnv allow
+
+# or set `export SLACK_TOKEN=XXXXXX` to your .bash_profile / .zshenv
+```
+
 
 ### testing
 

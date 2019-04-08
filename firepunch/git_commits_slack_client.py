@@ -1,18 +1,22 @@
 from firepunch.git_repository import GitRepository
+from pytz import timezone
 
 
 class GitCommitsSlackClient:
     def __init__(self, repo_name, inquiry_period,
-                 access_token, slack_notifier):
+                 access_token, slack_notifier, tzlocal='Asia/Tokyo'):
         self.repo_name = repo_name
         self.since = inquiry_period.since
         self.until = inquiry_period.until
         self.access_token = access_token
         self.slack_notifier = slack_notifier
+        self.timezone = timezone(tzlocal)
 
     def __header(self, commit_count):
+        since = self.since.astimezone(self.timezone).strftime("%Y-%m-%d %H:%M:%S")  # noqa: E501
+        until = self.until.astimezone(self.timezone).strftime("%Y-%m-%d %H:%M:%S")  # noqa: E501
         return (f"*[{self.repo_name}]*\n" +
-                f"{commit_count} commits between {self.since} and {self.until}.")  # noqa: E501
+                f"{commit_count} commits between {since} and {until}.")
 
     def __response_to_dict_list(self, commits_response):
         def format(commit):

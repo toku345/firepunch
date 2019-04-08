@@ -40,7 +40,6 @@ def main():
                                        github_access_token, notifier,
                                        args.tzlocal)
         client.post_commit_summary()
-        print("OK!")
     else:
         client = GitCommitsCliClient(args.repo_name, inquiry_period,
                                      github_access_token)

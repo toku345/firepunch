@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import argparse
 from datetime import datetime
+from pytz import utc
 import os
 
 from firepunch.inquiry_period import InquiryPeriod
@@ -19,12 +20,14 @@ def parse_args():
                         help="Output to `stdout` or `slack`. (default: slack)")
     parser.add_argument("--slack-channel", metavar="slack_channel",
                         help="Slack channel name. e.g. general")
+    parser.add_argument("--tzlocal", default="Asia/Tokyo",
+                        help="Display date & time in `tzlocal`")
     return parser.parse_args()
 
 
 def main():
     args = parse_args()
-    now = datetime.utcnow()
+    now = datetime.now(tz=utc)
     inquiry_period = InquiryPeriod(until=now, days=args.days)
 
     github_access_token = os.getenv("GITHUB_ACCESS_TOKEN")
@@ -34,7 +37,8 @@ def main():
         notifier = SlackNotifier(token=slack_token,
                                  channel_name=args.slack_channel)
         client = GitCommitsSlackClient(args.repo_name, inquiry_period,
-                                       github_access_token, notifier)
+                                       github_access_token, notifier,
+                                       args.tzlocal)
         client.post_commit_summary()
         print("OK!")
     else:
